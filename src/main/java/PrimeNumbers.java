@@ -14,30 +14,37 @@ public class PrimeNumbers {
     JScrollPane result;
 
     public PrimeNumbers() { //Конструктор
-        fromValue.setValue(1000);// Задаем начальное значение
-        toValue.setValue(5000);//Задаем конечное значение
+        fromValue.setValue(100000);// Задаем начальное значение
+        toValue.setValue(1500000);//Задаем конечное значение
          //primesList.setv("");
+        DefaultListModel<String> primes = new DefaultListModel<>();
+        primesList.setModel(primes);
 
 
         findAllPrimes.addActionListener(e -> new Thread(() -> {
             //Поиск простых чисел выделяем в отдельный поток
-            SwingUtilities.invokeLater(new Runnable() { //Конструкция позволяет выполнять действия между событиями
-                @Override
-                public void run() {
-                    int currentNumber, dividers;
+            SwingUtilities.invokeLater(() -> {
+                int from = (int) fromValue.getValue();
+                int to = (int) toValue.getValue();
+                System.out.println("Поиск простых чисел в диапазоне " + from + "..." + to);
 
-                    for (currentNumber = 1; currentNumber < 50; currentNumber++)
+                int currentNumber, dividers;
+
+                for (currentNumber = from; currentNumber < to; currentNumber++)
+                {
+                    dividers = 0;
+                    for (int i = 1; i <= currentNumber; i++)
                     {
-                        dividers = 0;
-                        for (int i = 1; i <= currentNumber; i++)
-                        {
-                            if (currentNumber % i == 0)
-                                dividers++;
-                        }
-                        if (dividers <= 2);
-
-                           // primesList.getSelectedValuesList(currentNumber);
-                            //System.out.println(currentNumber);
+                        if (currentNumber % i == 0)
+                            dividers++;
+                    }
+                    if (dividers <= 2) {
+                        //System.out.println(currentNumber);
+                        final int prime = currentNumber;
+                        SwingUtilities.invokeLater(() -> {
+                            // Действия между событиями Swing
+                            primes.addElement(Integer.toString(prime));
+                        });
                     }
                 }
             });
