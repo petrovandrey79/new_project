@@ -4,6 +4,7 @@ import java.awt.event.ActionListener;
 
 /**
  * Created by Андрей on 22.01.2016.
+ * Мой вариант программы
  */
 public class PrimeNumbers {
     JPanel mainPanel;
